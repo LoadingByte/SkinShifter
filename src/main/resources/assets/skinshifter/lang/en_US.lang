@@ -1,0 +1,9 @@
+key.categories.skinshifter=SkinShifter
+
+key.skinshifter.openSkinSelectionScreen=Open Skin Selection Screen
+
+
+
+gui.skinshifter.skinSelection.title=Skin Selection
+gui.skinshifter.skinSelection.apply=Apply
+gui.skinshifter.skinSelection.cancel=Cancel

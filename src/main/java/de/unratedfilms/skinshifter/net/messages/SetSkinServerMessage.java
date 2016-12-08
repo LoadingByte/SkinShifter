@@ -1,0 +1,60 @@
+
+package de.unratedfilms.skinshifter.net.messages;
+
+import org.apache.commons.lang3.Validate;
+import net.minecraft.entity.player.EntityPlayerMP;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import de.unratedfilms.skinshifter.common.skin.Skin;
+import de.unratedfilms.skinshifter.common.skin.SkinEncoder;
+import de.unratedfilms.skinshifter.net.NetworkService;
+import io.netty.buffer.ByteBuf;
+
+/**
+ * This message tells the server that it should set the {@link Skin} of the sending player to a given one.
+ */
+public class SetSkinServerMessage implements IMessage {
+
+    private Skin skin;
+
+    public SetSkinServerMessage() {
+
+    }
+
+    public SetSkinServerMessage(Skin skin) {
+
+        Validate.notNull(skin);
+
+        this.skin = skin;
+    }
+
+    @Override
+    public void fromBytes(ByteBuf buf) {
+
+        skin = SkinEncoder.readSkinBinary(buf);
+    }
+
+    @Override
+    public void toBytes(ByteBuf buf) {
+
+        SkinEncoder.writeSkinBinary(buf, skin);
+    }
+
+    public static class SetSkinServerMessageHandler implements IMessageHandler<SetSkinServerMessage, IMessage> {
+
+        @Override
+        public IMessage onMessage(SetSkinServerMessage message, MessageContext ctx) {
+
+            // Broadcast the skin change back to all players
+            EntityPlayerMP sourcePlayer = ctx.getServerHandler().playerEntity;
+            SetSkinClientMessage reply = new SetSkinClientMessage(sourcePlayer.getCommandSenderName(), message.skin);
+            NetworkService.DISPATCHER.sendToAll(reply);
+
+            // No other reply
+            return null;
+        }
+
+    }
+
+}
