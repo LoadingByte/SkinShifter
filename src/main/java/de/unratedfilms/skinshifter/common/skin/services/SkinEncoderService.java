@@ -1,5 +1,5 @@
 
-package de.unratedfilms.skinshifter.common.skin;
+package de.unratedfilms.skinshifter.common.skin.services;
 
 import static de.unratedfilms.skinshifter.Consts.LOGGER;
 import java.awt.image.BufferedImage;
@@ -8,10 +8,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.apache.commons.lang3.Validate;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import de.unratedfilms.skinshifter.common.skin.Skin;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 
-public class SkinEncoder {
+public class SkinEncoderService {
 
     public static Skin readSkinBinary(ByteBuf from) {
 
@@ -61,6 +62,6 @@ public class SkinEncoder {
         to.writeBytes(imageBytes);
     }
 
-    private SkinEncoder() {}
+    private SkinEncoderService() {}
 
 }

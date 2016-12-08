@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import de.unratedfilms.guilib.core.Viewport;
 import de.unratedfilms.guilib.core.WidgetFlexible;
 import de.unratedfilms.guilib.extra.ContextHelperWidgetAdapter;
-import de.unratedfilms.skinshifter.client.skin.SkinApplier;
+import de.unratedfilms.skinshifter.client.skin.services.SkinApplierService;
 import de.unratedfilms.skinshifter.common.skin.Skin;
 
 public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetFlexible {
@@ -48,13 +48,13 @@ public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetF
 
         ResourceLocation oldSkinResource = MC.thePlayer.getLocationSkin();
         if (skin != null) {
-            SkinApplier.applySkinTo(MC.thePlayer, skin);
+            SkinApplierService.applySkinTo(MC.thePlayer, skin);
         }
 
         GuiInventory.func_147046_a(getX() + (int) offsetX, getY() + (int) offsetY, (int) finalScale, relativeMouseX, relativeMouseY, MC.thePlayer);
 
         if (skin != null) {
-            SkinApplier.applySkinTo(MC.thePlayer, oldSkinResource);
+            SkinApplierService.applySkinTo(MC.thePlayer, oldSkinResource);
         }
     }
 

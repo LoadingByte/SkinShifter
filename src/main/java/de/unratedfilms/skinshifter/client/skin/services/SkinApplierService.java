@@ -1,5 +1,5 @@
 
-package de.unratedfilms.skinshifter.client.skin;
+package de.unratedfilms.skinshifter.client.skin.services;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.Minecraft;
@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import de.unratedfilms.skinshifter.Consts;
 import de.unratedfilms.skinshifter.common.skin.Skin;
 
-public class SkinApplier {
+public class SkinApplierService {
 
     public static void applySkinTo(AbstractClientPlayer player, ResourceLocation skinResource) {
 
@@ -26,6 +26,6 @@ public class SkinApplier {
         applySkinTo(player, skinResource);
     }
 
-    private SkinApplier() {}
+    private SkinApplierService() {}
 
 }

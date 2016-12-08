@@ -1,5 +1,5 @@
 
-package de.unratedfilms.skinshifter.common.skin;
+package de.unratedfilms.skinshifter.common.skin.services;
 
 import static de.unratedfilms.skinshifter.Consts.LOGGER;
 import java.awt.image.BufferedImage;
@@ -15,8 +15,9 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FilenameUtils;
 import de.unratedfilms.skinshifter.Config;
 import de.unratedfilms.skinshifter.Consts;
+import de.unratedfilms.skinshifter.common.skin.Skin;
 
-public class SkinProvider {
+public class SkinProviderService {
 
     public static Set<Skin> getAvailableSkins() {
 
@@ -75,6 +76,6 @@ public class SkinProvider {
         return skins;
     }
 
-    private SkinProvider() {}
+    private SkinProviderService() {}
 
 }

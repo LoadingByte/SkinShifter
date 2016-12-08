@@ -7,7 +7,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import de.unratedfilms.skinshifter.common.skin.Skin;
-import de.unratedfilms.skinshifter.common.skin.SkinEncoder;
+import de.unratedfilms.skinshifter.common.skin.services.SkinEncoderService;
 import de.unratedfilms.skinshifter.net.NetworkService;
 import io.netty.buffer.ByteBuf;
 
@@ -32,13 +32,13 @@ public class SetSkinServerMessage implements IMessage {
     @Override
     public void fromBytes(ByteBuf buf) {
 
-        skin = SkinEncoder.readSkinBinary(buf);
+        skin = SkinEncoderService.readSkinBinary(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
 
-        SkinEncoder.writeSkinBinary(buf, skin);
+        SkinEncoderService.writeSkinBinary(buf, skin);
     }
 
     public static class SetSkinServerMessageHandler implements IMessageHandler<SetSkinServerMessage, IMessage> {

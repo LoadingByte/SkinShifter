@@ -13,8 +13,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.unratedfilms.skinshifter.client.gui.SkinSelectionScreen;
 import de.unratedfilms.skinshifter.common.skin.Skin;
-import de.unratedfilms.skinshifter.common.skin.SkinEncoder;
-import de.unratedfilms.skinshifter.common.skin.SkinProvider;
+import de.unratedfilms.skinshifter.common.skin.services.SkinEncoderService;
+import de.unratedfilms.skinshifter.common.skin.services.SkinProviderService;
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -40,7 +40,7 @@ public class AvailableSkinsResponseClientMessage implements IMessage {
 
         availableSkins = new Skin[buf.readInt()];
         for (int i = 0; i < availableSkins.length; i++) {
-            availableSkins[i] = SkinEncoder.readSkinBinary(buf);
+            availableSkins[i] = SkinEncoderService.readSkinBinary(buf);
         }
     }
 
@@ -49,7 +49,7 @@ public class AvailableSkinsResponseClientMessage implements IMessage {
 
         buf.writeInt(availableSkins.length);
         for (Skin availableSkin : availableSkins) {
-            SkinEncoder.writeSkinBinary(buf, availableSkin);
+            SkinEncoderService.writeSkinBinary(buf, availableSkin);
         }
     }
 
@@ -62,7 +62,7 @@ public class AvailableSkinsResponseClientMessage implements IMessage {
             Set<Skin> allAvailableSkins = new HashSet<>();
 
             // Consider the skins which are stored on the client
-            allAvailableSkins.addAll(SkinProvider.getAvailableSkins());
+            allAvailableSkins.addAll(SkinProviderService.getAvailableSkins());
 
             // And, of course, the skins which are stored on the server
             allAvailableSkins.addAll(Arrays.asList(message.availableSkins));

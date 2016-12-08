@@ -10,9 +10,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.unratedfilms.skinshifter.client.skin.SkinApplier;
+import de.unratedfilms.skinshifter.client.skin.services.SkinApplierService;
 import de.unratedfilms.skinshifter.common.skin.Skin;
-import de.unratedfilms.skinshifter.common.skin.SkinEncoder;
+import de.unratedfilms.skinshifter.common.skin.services.SkinEncoderService;
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -40,14 +40,14 @@ public class SetSkinClientMessage implements IMessage {
     public void fromBytes(ByteBuf buf) {
 
         playerName = ByteBufUtils.readUTF8String(buf);
-        skin = SkinEncoder.readSkinBinary(buf);
+        skin = SkinEncoderService.readSkinBinary(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
 
         ByteBufUtils.writeUTF8String(buf, playerName);
-        SkinEncoder.writeSkinBinary(buf, skin);
+        SkinEncoderService.writeSkinBinary(buf, skin);
     }
 
     public static class SetSkinClientMessageHandler implements IMessageHandler<SetSkinClientMessage, IMessage> {
@@ -57,7 +57,7 @@ public class SetSkinClientMessage implements IMessage {
         public IMessage onMessage(SetSkinClientMessage message, MessageContext ctx) {
 
             AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().theWorld.getPlayerEntityByName(message.playerName);
-            SkinApplier.applySkinTo(player, message.skin);
+            SkinApplierService.applySkinTo(player, message.skin);
 
             // No reply
             return null;
