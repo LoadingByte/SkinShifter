@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FilenameUtils;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
 import de.unratedfilms.skinshifter.Config;
 import de.unratedfilms.skinshifter.Consts;
 import de.unratedfilms.skinshifter.common.skin.Skin;
@@ -23,20 +25,7 @@ public class SkinProviderService {
 
         Set<Skin> skins = new HashSet<>();
 
-        for (String directoryPath : Config.skinDirectories) {
-            final Path directory = Consts.MINECRAFT_DIR.resolve(directoryPath);
-
-            // Create the skin directory if it doesn't exist yet
-            if (!Files.exists(directory)) {
-                LOGGER.info("Creating new configured skin dir under '{}'", directory);
-
-                try {
-                    Files.createDirectories(directory);
-                } catch (IOException e) {
-                    LOGGER.error("Failed to create the configured skin dir '{}'", directory, e);
-                }
-            }
-
+        for (Path directory : getAllSkinDirectories()) {
             LOGGER.info("Checking dir '{}' for potential skins", directory);
 
             try {
@@ -46,15 +35,17 @@ public class SkinProviderService {
                     @Override
                     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
 
-                        try {
-                            // Get the skin name
-                            String skinName = FilenameUtils.removeExtension(directory.relativize(file).toString());
-                            // Load the skin into a bufferedimage
-                            BufferedImage skinTexture = ImageIO.read(file.toFile());
+                        if (FilenameUtils.getExtension(file.toString()).equalsIgnoreCase("png")) {
+                            try {
+                                // Get the skin name
+                                String skinName = FilenameUtils.removeExtension(directory.relativize(file).toString());
+                                // Load the skin into a bufferedimage
+                                BufferedImage skinTexture = ImageIO.read(file.toFile());
 
-                            skins.add(new Skin(skinName, skinTexture));
-                        } catch (IOException e) {
-                            LOGGER.error("Error while reading custom skin file '{}'", file, e);
+                                skins.add(new Skin(skinName, skinTexture));
+                            } catch (IOException e) {
+                                LOGGER.error("Error while reading custom skin file '{}'", file, e);
+                            }
                         }
 
                         return FileVisitResult.CONTINUE;
@@ -74,6 +65,38 @@ public class SkinProviderService {
         }
 
         return skins;
+    }
+
+    private static Set<Path> getAllSkinDirectories() {
+
+        Set<Path> skinDirs = new HashSet<>();
+
+        // Add the configured skin directories
+        for (String skinDirPath : Config.skinDirectories) {
+            Path skinDir = Consts.MINECRAFT_DIR.resolve(skinDirPath);
+            skinDirs.add(skinDir);
+
+            // Create the skin directory if it doesn't exist yet
+            if (!Files.exists(skinDir)) {
+                LOGGER.info("Creating new configured skin dir under '{}'", skinDir);
+
+                try {
+                    Files.createDirectories(skinDir);
+                } catch (IOException e) {
+                    LOGGER.error("Failed to create the configured skin dir '{}'", skinDir, e);
+                }
+            }
+        }
+
+        // Add a skin directory for each world
+        for (World world : MinecraftServer.getServer().worldServers) {
+            Path skinDir = world.getSaveHandler().getWorldDirectory().toPath().resolve("skins");
+            if (Files.exists(skinDir)) {
+                skinDirs.add(skinDir);
+            }
+        }
+
+        return skinDirs;
     }
 
     private SkinProviderService() {}
