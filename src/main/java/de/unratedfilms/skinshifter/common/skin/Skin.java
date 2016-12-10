@@ -18,7 +18,6 @@ public class Skin implements Comparable<Skin> {
         this.name = name;
 
         BufferedImage croppedTexture = texture.getSubimage(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
-        System.out.println("Cropped from " + texture.getWidth() + "/" + texture.getHeight() + " to " + croppedTexture.getWidth() + "/" + croppedTexture.getHeight());
         this.texture = croppedTexture;
     }
 
