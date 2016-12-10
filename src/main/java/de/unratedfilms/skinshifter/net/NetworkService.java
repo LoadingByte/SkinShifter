@@ -11,6 +11,8 @@ import de.unratedfilms.skinshifter.net.messages.AvailableSkinsRequestServerMessa
 import de.unratedfilms.skinshifter.net.messages.AvailableSkinsRequestServerMessage.AvailableSkinsRequestServerMessageHandler;
 import de.unratedfilms.skinshifter.net.messages.AvailableSkinsResponseClientMessage;
 import de.unratedfilms.skinshifter.net.messages.AvailableSkinsResponseClientMessage.AvailableSkinsResponseClientMessageHandler;
+import de.unratedfilms.skinshifter.net.messages.PollSkinServerMessage;
+import de.unratedfilms.skinshifter.net.messages.PollSkinServerMessage.PollSkinServerMessageHandler;
 import de.unratedfilms.skinshifter.net.messages.SetSkinClientMessage;
 import de.unratedfilms.skinshifter.net.messages.SetSkinClientMessage.SetSkinClientMessageHandler;
 import de.unratedfilms.skinshifter.net.messages.SetSkinServerMessage;
@@ -32,6 +34,8 @@ public class NetworkService {
         registerMessage(SetSkinServerMessageHandler.class, SetSkinServerMessage.class, Side.SERVER);
         registerMessage(SetSkinClientMessageHandler.class, SetSkinClientMessage.class, Side.CLIENT);
 
+        // Poll skin message
+        registerMessage(PollSkinServerMessageHandler.class, PollSkinServerMessage.class, Side.SERVER);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType, Side side) {
