@@ -15,6 +15,7 @@ public class SkinRecorderService {
     public static Optional<Skin> getRecordedSkinOf(String playerName) {
 
         Validate.notBlank(playerName, "Cannot retrieve the recorded skin of a player with a blank name");
+
         return Optional.ofNullable(recordedSkins.get(playerName));
     }
 

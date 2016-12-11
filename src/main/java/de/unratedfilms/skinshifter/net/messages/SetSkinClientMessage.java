@@ -16,7 +16,7 @@ import de.unratedfilms.skinshifter.common.skin.services.SkinEncoderService;
 import io.netty.buffer.ByteBuf;
 
 /**
- * This message tells the server that it should set the {@link Skin} of a given player to a given one.
+ * This message tells the client that it should set the {@link Skin} of a given player to a given one.
  */
 public class SetSkinClientMessage implements IMessage {
 
