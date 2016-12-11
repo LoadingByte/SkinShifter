@@ -11,16 +11,16 @@ import de.unratedfilms.skinshifter.common.skin.Skin;
 
 public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetFlexible {
 
-    private Skin skin;
+    private Skin customSkin;
 
-    public Skin getSkin() {
+    public Skin getCustomSkin() {
 
-        return skin;
+        return customSkin;
     }
 
-    public void setSkin(Skin skin) {
+    public void setCustomSkin(Skin customSkin) {
 
-        this.skin = skin;
+        this.customSkin = customSkin;
     }
 
     @Override
@@ -47,14 +47,14 @@ public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetF
         float relativeMouseY = - (lmy - (getY() + offsetY - playerHeight * 0.8f));
 
         ResourceLocation oldSkinResource = MC.thePlayer.getLocationSkin();
-        if (skin != null) {
-            SkinApplierService.applySkinTo(MC.thePlayer, skin);
+        if (customSkin != null) {
+            SkinApplierService.setSkinTo(MC.thePlayer, customSkin);
         }
 
         GuiInventory.func_147046_a(getX() + (int) offsetX, getY() + (int) offsetY, (int) finalScale, relativeMouseX, relativeMouseY, MC.thePlayer);
 
-        if (skin != null) {
-            SkinApplierService.applySkinTo(MC.thePlayer, oldSkinResource);
+        if (customSkin != null) {
+            SkinApplierService.setSkinTo(MC.thePlayer, oldSkinResource);
         }
     }
 

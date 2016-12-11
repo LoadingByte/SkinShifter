@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Set;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import de.unratedfilms.guilib.core.Axis;
 import de.unratedfilms.guilib.extra.CloseScreenButtonHandler;
-import de.unratedfilms.guilib.extra.FlowLayoutManager;
-import de.unratedfilms.guilib.extra.FlowLayoutManager.Axis;
 import de.unratedfilms.guilib.integration.BasicScreen;
+import de.unratedfilms.guilib.layouts.AlignLayout;
+import de.unratedfilms.guilib.layouts.FlowLayout;
+import de.unratedfilms.guilib.layouts.SqueezeLayout;
 import de.unratedfilms.guilib.widgets.model.Button;
 import de.unratedfilms.guilib.widgets.model.Button.LeftButtonHandler;
 import de.unratedfilms.guilib.widgets.model.ButtonLabel;
@@ -26,6 +28,7 @@ import de.unratedfilms.guilib.widgets.view.impl.LabelImpl;
 import de.unratedfilms.guilib.widgets.view.impl.ScrollbarImpl;
 import de.unratedfilms.skinshifter.common.skin.Skin;
 import de.unratedfilms.skinshifter.net.NetworkService;
+import de.unratedfilms.skinshifter.net.messages.ClearSkinServerMessage;
 import de.unratedfilms.skinshifter.net.messages.SetSkinServerMessage;
 
 public class SkinSelectionScreen extends BasicScreen {
@@ -43,7 +46,8 @@ public class SkinSelectionScreen extends BasicScreen {
     private ContainerFlexible leftContainer;
     private PlayerDisplay     selectedSkinPlayerDisplay;
 
-    private ButtonLabel       applyButton;
+    private ButtonLabel       setSkinButton;
+    private ButtonLabel       clearSkinButton;
     private ButtonLabel       cancelButton;
 
     private ContainerFlexible scrollableContainer;
@@ -71,9 +75,11 @@ public class SkinSelectionScreen extends BasicScreen {
         selectedSkinPlayerDisplay = new PlayerDisplay();
         mainContainer.addWidgets(titleLabel, leftContainer, selectedSkinPlayerDisplay);
 
-        applyButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.apply"), new ApplyButtonHandler());
+        setSkinButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.setSkin"), new SetSkinButtonHandler());
+        clearSkinButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.clearSkin"), new ClearSkinButtonHandler());
         cancelButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.cancel"), new CloseScreenButtonHandler(this));
-        leftContainer.addWidgets(applyButton, cancelButton);
+        ContainerFlexible buttonContainer = new ContainerClippingImpl(setSkinButton, clearSkinButton, cancelButton);
+        leftContainer.addWidgets(buttonContainer);
 
         scrollbar = new ScrollbarImpl(2 * PADDING);
         scrollableContainer = new ContainerScrollableImpl(scrollbar, 10);
@@ -86,37 +92,48 @@ public class SkinSelectionScreen extends BasicScreen {
         // ----- Revalidation -----
 
         rootContainer
-                .appendLayoutManager(() -> {
+                .appendLayoutManager(c -> {
                     mainContainer.setBounds(MARGIN, MARGIN, rootContainer.getWidth() - 2 * MARGIN, rootContainer.getHeight() - 2 * MARGIN);
                 });
 
-        mainContainer.appendLayoutManager(() -> {
-            // Title label at the top
-            titleLabel.setPosition( (mainContainer.getWidth() - titleLabel.getWidth()) / 2, PADDING);
+        mainContainer
+                .appendLayoutManager(c -> {
+                    // Title label at the top
+                    titleLabel.setPosition( (mainContainer.getWidth() - titleLabel.getWidth()) / 2, PADDING);
 
-            // Player display at the rightmost position, taking up 1/3 of the main container
-            selectedSkinPlayerDisplay.setSize( (mainContainer.getWidth() - 2 * PADDING) * 1 / 3, mainContainer.getHeight() - 2 * PADDING);
-            selectedSkinPlayerDisplay.setPosition(mainContainer.getWidth() - PADDING - selectedSkinPlayerDisplay.getWidth(),
-                    (mainContainer.getHeight() - selectedSkinPlayerDisplay.getHeight()) / 2);
+                    // Player display at the rightmost position, taking up 1/3 of the main container
+                    selectedSkinPlayerDisplay.setSize( (mainContainer.getWidth() - 2 * PADDING) * 1 / 3, mainContainer.getHeight() - 2 * PADDING);
+                    selectedSkinPlayerDisplay.setPosition(mainContainer.getWidth() - PADDING - selectedSkinPlayerDisplay.getWidth(),
+                            (mainContainer.getHeight() - selectedSkinPlayerDisplay.getHeight()) / 2);
 
-            // The left container should use up all the available space next to the title label and the player display, with a gap of 10 pixels at each side
-            int titleLabelBottom = titleLabel.getY() + titleLabel.getHeight();
-            leftContainer.setBounds(PADDING, titleLabelBottom + 10,
-                    selectedSkinPlayerDisplay.getX() - 10 - PADDING, mainContainer.getHeight() - PADDING - (titleLabelBottom + 10));
-        });
+                    // The left container should use up all the available space next to the title label and the player display, with a gap of 10 pixels at each side
+                    int titleLabelBottom = titleLabel.getY() + titleLabel.getHeight();
+                    leftContainer.setBounds(PADDING, titleLabelBottom + 10,
+                            selectedSkinPlayerDisplay.getX() - 10 - PADDING, mainContainer.getHeight() - PADDING - (titleLabelBottom + 10));
+                });
 
-        leftContainer.appendLayoutManager(() -> {
-            // Buttons at the bottom center
-            applyButton.setBounds(leftContainer.getWidth() / 2 - 122, leftContainer.getHeight() - PADDING - 20, 120, 20);
-            cancelButton.setBounds(leftContainer.getWidth() / 2 + 2, leftContainer.getHeight() - PADDING - 20, 120, 20);
+        leftContainer
+                .appendLayoutManager(c -> {
+                    // Buttons at the bottom center
+                    buttonContainer.setBounds(0, leftContainer.getHeight() - PADDING - 20, leftContainer.getWidth(), 20);
 
-            // The scrollable container should use up all the remaining available space in the left container, keeping a gap of 10 pixels to the buttons
-            scrollableContainer.setBounds(0, 0, leftContainer.getWidth(), applyButton.getY() - 10);
-        });
+                    // The scrollable container should use up all the remaining available space in the left container, keeping a gap of 10 pixels to the buttons
+                    scrollableContainer.setBounds(0, 0, leftContainer.getWidth(), buttonContainer.getY() - 10);
+                });
 
-        scrollableContainer.appendLayoutManager(() -> {
-            scrollbar.setPosition(scrollableContainer.getWidth() - scrollbar.getWidth(), 0);
-        }).appendLayoutManager(new FlowLayoutManager(scrollableContainer, Axis.Y, PADDING, PADDING, SCROLLABLE_CONTAINER_WIDGET_V_PADDING));
+        buttonContainer
+                .appendLayoutManager(new AlignLayout(Axis.Y, 0))
+                .appendLayoutManager(new SqueezeLayout(Axis.X, 0, 4)
+                        .addWeight(setSkinButton, 1.1)
+                        .addWeight(clearSkinButton, 1.5)
+                        .addWeight(cancelButton, 1));
+
+        scrollableContainer
+                .appendLayoutManager(c -> {
+                    scrollbar.setPosition(scrollableContainer.getWidth() - scrollbar.getWidth(), 0);
+                })
+                .appendLayoutManager(new AlignLayout(Axis.X, 0))
+                .appendLayoutManager(new FlowLayout(Axis.Y, 0, SCROLLABLE_CONTAINER_WIDGET_V_PADDING));
     }
 
     @Override
@@ -138,18 +155,31 @@ public class SkinSelectionScreen extends BasicScreen {
         @Override
         public void focusGained() {
 
-            selectedSkinPlayerDisplay.setSkin((Skin) getUserData());
+            selectedSkinPlayerDisplay.setCustomSkin((Skin) getUserData());
         }
 
     }
 
-    private class ApplyButtonHandler extends LeftButtonHandler {
+    private class ClearSkinButtonHandler extends LeftButtonHandler {
+
+        @Override
+        public void leftButtonClicked(Button button) {
+
+            // Tell the server that this player has chosen to wear his default skin again
+            NetworkService.DISPATCHER.sendToServer(new ClearSkinServerMessage());
+
+            close();
+        }
+
+    }
+
+    private class SetSkinButtonHandler extends LeftButtonHandler {
 
         @Override
         public void leftButtonClicked(Button button) {
 
             // This quickly gives us the currently selected skin
-            Skin skin = selectedSkinPlayerDisplay.getSkin();
+            Skin skin = selectedSkinPlayerDisplay.getCustomSkin();
 
             if (skin != null) {
                 // Tell the server that this player has selected a new skin to wear
