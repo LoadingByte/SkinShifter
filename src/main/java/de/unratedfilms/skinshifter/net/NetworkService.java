@@ -11,6 +11,10 @@ import de.unratedfilms.skinshifter.net.messages.AvailableSkinsRequestServerMessa
 import de.unratedfilms.skinshifter.net.messages.AvailableSkinsRequestServerMessage.AvailableSkinsRequestServerMessageHandler;
 import de.unratedfilms.skinshifter.net.messages.AvailableSkinsResponseClientMessage;
 import de.unratedfilms.skinshifter.net.messages.AvailableSkinsResponseClientMessage.AvailableSkinsResponseClientMessageHandler;
+import de.unratedfilms.skinshifter.net.messages.ClearSkinClientMessage;
+import de.unratedfilms.skinshifter.net.messages.ClearSkinClientMessage.ClearSkinClientMessageHandler;
+import de.unratedfilms.skinshifter.net.messages.ClearSkinServerMessage;
+import de.unratedfilms.skinshifter.net.messages.ClearSkinServerMessage.ClearSkinServerMessageHandler;
 import de.unratedfilms.skinshifter.net.messages.PollSkinServerMessage;
 import de.unratedfilms.skinshifter.net.messages.PollSkinServerMessage.PollSkinServerMessageHandler;
 import de.unratedfilms.skinshifter.net.messages.SetSkinClientMessage;
@@ -33,6 +37,10 @@ public class NetworkService {
         // Set skin messages
         registerMessage(SetSkinServerMessageHandler.class, SetSkinServerMessage.class, Side.SERVER);
         registerMessage(SetSkinClientMessageHandler.class, SetSkinClientMessage.class, Side.CLIENT);
+
+        // Clear skin messages
+        registerMessage(ClearSkinServerMessageHandler.class, ClearSkinServerMessage.class, Side.SERVER);
+        registerMessage(ClearSkinClientMessageHandler.class, ClearSkinClientMessage.class, Side.CLIENT);
 
         // Poll skin message
         registerMessage(PollSkinServerMessageHandler.class, PollSkinServerMessage.class, Side.SERVER);

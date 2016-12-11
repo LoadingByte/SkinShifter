@@ -16,7 +16,7 @@ public class RemoveAbandonedSkinsEventHandler {
     @SubscribeEvent
     public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
 
-        SkinRecorderService.recordSkinChange(event.player.getCommandSenderName(), null);
+        SkinRecorderService.recordSkinClear(event.player.getCommandSenderName());
     }
 
 }

@@ -1,6 +1,7 @@
 
 package de.unratedfilms.skinshifter.net.messages;
 
+import java.util.Optional;
 import org.apache.commons.lang3.Validate;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -11,7 +12,7 @@ import de.unratedfilms.skinshifter.common.skin.services.SkinRecorderService;
 import io.netty.buffer.ByteBuf;
 
 /**
- * This message tells the server that it should send the skin of the specified player to the sending player via a {@link SetSkinClientMessage}.
+ * This message tells the server that it should send the skin of the specified player to the sending player via a {@link SetSkinClientMessage} or {@link ClearSkinClientMessage}.
  */
 public class PollSkinServerMessage implements IMessage {
 
@@ -40,18 +41,17 @@ public class PollSkinServerMessage implements IMessage {
         ByteBufUtils.writeUTF8String(buf, playerName);
     }
 
-    public static class PollSkinServerMessageHandler implements IMessageHandler<PollSkinServerMessage, SetSkinClientMessage> {
+    public static class PollSkinServerMessageHandler implements IMessageHandler<PollSkinServerMessage, IMessage> {
 
         @Override
-        public SetSkinClientMessage onMessage(PollSkinServerMessage message, MessageContext ctx) {
+        public IMessage onMessage(PollSkinServerMessage message, MessageContext ctx) {
 
-            Skin skin = SkinRecorderService.getRecordedSkinOf(message.playerName);
+            Optional<Skin> skin = SkinRecorderService.getRecordedSkinOf(message.playerName);
 
-            if (skin != null) {
-                SetSkinClientMessage reply = new SetSkinClientMessage(message.playerName, skin);
-                return reply;
+            if (skin.isPresent()) {
+                return new SetSkinClientMessage(message.playerName, skin.get());
             } else {
-                return null;
+                return new ClearSkinClientMessage(message.playerName);
             }
         }
 

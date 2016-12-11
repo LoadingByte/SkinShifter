@@ -49,7 +49,7 @@ public class SetSkinServerMessage implements IMessage {
             String sourcePlayerName = ctx.getServerHandler().playerEntity.getCommandSenderName();
 
             // Remember the chosen skin
-            SkinRecorderService.recordSkinChange(sourcePlayerName, message.skin);
+            SkinRecorderService.recordSkinSet(sourcePlayerName, message.skin);
 
             // Broadcast the skin change back to all players
             SetSkinClientMessage reply = new SetSkinClientMessage(sourcePlayerName, message.skin);
