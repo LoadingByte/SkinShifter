@@ -3,8 +3,6 @@ SkinShifter
 
 SkinShifter is a Minecraft mod that allows players to change their skin to arbitrary images. It also supports multiplayer.
 
-In order to use this mod, you first need to install GuiLib as a dependency!
-
 License
 -------
 
