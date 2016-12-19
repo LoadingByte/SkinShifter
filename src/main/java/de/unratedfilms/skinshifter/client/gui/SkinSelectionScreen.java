@@ -155,6 +155,8 @@ public class SkinSelectionScreen extends BasicScreen {
         @Override
         public void focusGained() {
 
+            super.focusGained();
+
             selectedSkinPlayerDisplay.setCustomSkin((Skin) getUserData());
         }
 
