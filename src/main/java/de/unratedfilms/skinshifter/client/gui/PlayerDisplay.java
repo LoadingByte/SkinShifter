@@ -51,6 +51,7 @@ public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetF
             SkinApplierService.setSkinTo(MC.thePlayer, customSkin);
         }
 
+        // This method is normally used to draw the small player in the middle of the inventory screen
         GuiInventory.func_147046_a(getX() + (int) offsetX, getY() + (int) offsetY, (int) finalScale, relativeMouseX, relativeMouseY, MC.thePlayer);
 
         if (customSkin != null) {
