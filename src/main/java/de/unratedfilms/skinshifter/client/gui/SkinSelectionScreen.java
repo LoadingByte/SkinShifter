@@ -124,9 +124,9 @@ public class SkinSelectionScreen extends BasicScreen {
         buttonContainer
                 .appendLayoutManager(new AlignLayout(Axis.Y, 0))
                 .appendLayoutManager(new SqueezeLayout(Axis.X, 0, 4)
-                        .addWeight(setSkinButton, 1.1)
-                        .addWeight(clearSkinButton, 1.5)
-                        .addWeight(cancelButton, 1));
+                        .weight(1.1, setSkinButton)
+                        .weight(1.5, clearSkinButton)
+                        .weight(1, cancelButton));
 
         scrollableContainer
                 .appendLayoutManager(c -> {
