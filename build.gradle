@@ -50,7 +50,7 @@ repositories {
 }
 
 dependencies {
-    compile 'de.unratedfilms:guilib:1.2.0-SNAPSHOT:dev'
+    compile 'de.unratedfilms:guilib:1.2.0:dev'
 }
 
 processResources {
