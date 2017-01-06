@@ -1,0 +1,13 @@
+[
+{
+  "modid": "skinshifter",
+  "name": "SkinShifter",
+  "description": "A Minecraft mod that allows players to change their skin to arbitrary images. It also supports multiplayer.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.unratedfilmindustries.de",
+  "authorList": [ "LoadingByte" ],
+  "requiredMods": [ "guilib" ],
+  "dependencies": [ "guilib" ]
+}
+]
