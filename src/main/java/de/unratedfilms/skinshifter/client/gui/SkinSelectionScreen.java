@@ -9,13 +9,12 @@ import java.util.Set;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import de.unratedfilms.guilib.core.Axis;
-import de.unratedfilms.guilib.extra.CloseScreenButtonHandler;
+import de.unratedfilms.guilib.core.MouseButton;
 import de.unratedfilms.guilib.integration.BasicScreen;
 import de.unratedfilms.guilib.layouts.AlignLayout;
 import de.unratedfilms.guilib.layouts.FlowLayout;
 import de.unratedfilms.guilib.layouts.SqueezeLayout;
-import de.unratedfilms.guilib.widgets.model.Button;
-import de.unratedfilms.guilib.widgets.model.Button.LeftButtonHandler;
+import de.unratedfilms.guilib.widgets.model.Button.FilteredButtonHandler;
 import de.unratedfilms.guilib.widgets.model.ButtonLabel;
 import de.unratedfilms.guilib.widgets.model.ContainerFlexible;
 import de.unratedfilms.guilib.widgets.model.Label;
@@ -75,9 +74,15 @@ public class SkinSelectionScreen extends BasicScreen {
         selectedSkinPlayerDisplay = new PlayerDisplay();
         mainContainer.addWidgets(titleLabel, leftContainer, selectedSkinPlayerDisplay);
 
-        setSkinButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.setSkin"), new SetSkinButtonHandler());
-        clearSkinButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.clearSkin"), new ClearSkinButtonHandler());
-        cancelButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.cancel"), new CloseScreenButtonHandler(this));
+        setSkinButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.setSkin"), new FilteredButtonHandler(MouseButton.LEFT, (b, mb) -> {
+            setSkinToSelected();
+            close();
+        }));
+        clearSkinButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.clearSkin"), new FilteredButtonHandler(MouseButton.LEFT, (b, mb) -> {
+            clearSkin();
+            close();
+        }));
+        cancelButton = new ButtonLabelImpl(I18n.format("gui." + MOD_ID + ".skinSelection.cancel"), new FilteredButtonHandler(MouseButton.LEFT, (b, mb) -> close()));
         ContainerFlexible buttonContainer = new ContainerClippingImpl(setSkinButton, clearSkinButton, cancelButton);
         leftContainer.addWidgets(buttonContainer);
 
@@ -136,6 +141,23 @@ public class SkinSelectionScreen extends BasicScreen {
                 .appendLayoutManager(new FlowLayout(Axis.Y, 0, SCROLLABLE_CONTAINER_WIDGET_V_PADDING));
     }
 
+    private void setSkinToSelected() {
+
+        // This quickly gives us the currently selected skin
+        Skin skin = selectedSkinPlayerDisplay.getCustomSkin();
+
+        if (skin != null) {
+            // Tell the server that this player has selected a new skin to wear
+            NetworkService.DISPATCHER.sendToServer(new SetSkinServerMessage(skin));
+        }
+    }
+
+    private void clearSkin() {
+
+        // Tell the server that this player has chosen to wear his default skin again
+        NetworkService.DISPATCHER.sendToServer(new ClearSkinServerMessage());
+    }
+
     @Override
     public void drawBackground() {
 
@@ -158,37 +180,6 @@ public class SkinSelectionScreen extends BasicScreen {
             super.focusGained();
 
             selectedSkinPlayerDisplay.setCustomSkin((Skin) getUserData());
-        }
-
-    }
-
-    private class ClearSkinButtonHandler extends LeftButtonHandler {
-
-        @Override
-        public void leftButtonClicked(Button button) {
-
-            // Tell the server that this player has chosen to wear his default skin again
-            NetworkService.DISPATCHER.sendToServer(new ClearSkinServerMessage());
-
-            close();
-        }
-
-    }
-
-    private class SetSkinButtonHandler extends LeftButtonHandler {
-
-        @Override
-        public void leftButtonClicked(Button button) {
-
-            // This quickly gives us the currently selected skin
-            Skin skin = selectedSkinPlayerDisplay.getCustomSkin();
-
-            if (skin != null) {
-                // Tell the server that this player has selected a new skin to wear
-                NetworkService.DISPATCHER.sendToServer(new SetSkinServerMessage(skin));
-            }
-
-            close();
         }
 
     }
