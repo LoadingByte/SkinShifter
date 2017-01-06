@@ -1,3 +1,9 @@
+1.0.1
+-----
+
+## Fixes
+* Replace the snapshot dependency on GuiLib with a proper release.
+
 1.0.0
 -----
 

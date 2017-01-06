@@ -27,7 +27,7 @@ apply plugin: 'maven-publish-auth'
 
 // Basic project information
 group = 'de.unratedfilms'
-version = '1.0.0'
+version = '1.0.1'
 
 // Minimum java version
 sourceCompatibility = 1.8
@@ -50,7 +50,7 @@ repositories {
 }
 
 dependencies {
-    compile 'de.unratedfilms:guilib:1.2.0-SNAPSHOT:dev'
+    compile 'de.unratedfilms:guilib:1.2.0:dev'
 }
 
 processResources {
