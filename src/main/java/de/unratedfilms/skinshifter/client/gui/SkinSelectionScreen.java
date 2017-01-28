@@ -182,6 +182,14 @@ public class SkinSelectionScreen extends BasicScreen {
             selectedSkinPlayerDisplay.setCustomSkin((Skin) getUserData());
         }
 
+        @Override
+        public void focusLost() {
+
+            super.focusLost();
+
+            selectedSkinPlayerDisplay.setCustomSkin(null);
+        }
+
     }
 
 }
