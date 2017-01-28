@@ -2,10 +2,10 @@
 package de.unratedfilms.skinshifter.common.main;
 
 import java.nio.file.Paths;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import de.unratedfilms.skinshifter.Config;
 import de.unratedfilms.skinshifter.Consts;
 import de.unratedfilms.skinshifter.common.event.RemoveAbandonedSkinsEventHandler;
@@ -28,7 +28,7 @@ public class CommonHandler {
     public void init(FMLInitializationEvent event) {
 
         // Initialize the skin record cleanup mechanism
-        FMLCommonHandler.instance().bus().register(new RemoveAbandonedSkinsEventHandler());
+        MinecraftForge.EVENT_BUS.register(new RemoveAbandonedSkinsEventHandler());
     }
 
     public void postInit(FMLPostInitializationEvent event) {

@@ -46,16 +46,16 @@ public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetF
         float relativeMouseX = - (lmx - (getX() + offsetX));
         float relativeMouseY = - (lmy - (getY() + offsetY - playerHeight * 0.8f));
 
-        ResourceLocation oldSkinResource = MC.thePlayer.getLocationSkin();
+        ResourceLocation oldSkinResource = MC.player.getLocationSkin();
         if (customSkin != null) {
-            SkinApplierService.setSkinTo(MC.thePlayer, customSkin);
+            SkinApplierService.setSkinTo(MC.player, customSkin);
         }
 
         // This method is normally used to draw the small player in the middle of the inventory screen
-        GuiInventory.func_147046_a(getX() + (int) offsetX, getY() + (int) offsetY, (int) finalScale, relativeMouseX, relativeMouseY, MC.thePlayer);
+        GuiInventory.drawEntityOnScreen(getX() + (int) offsetX, getY() + (int) offsetY, (int) finalScale, relativeMouseX, relativeMouseY, MC.player);
 
         if (customSkin != null) {
-            SkinApplierService.setSkinTo(MC.thePlayer, oldSkinResource);
+            SkinApplierService.setSkinTo(MC.player, oldSkinResource);
         }
     }
 

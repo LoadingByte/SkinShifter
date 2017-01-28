@@ -1,8 +1,8 @@
 
 package de.unratedfilms.skinshifter.common.event;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import de.unratedfilms.skinshifter.common.skin.services.SkinRecorderService;
 
 /**
@@ -16,7 +16,7 @@ public class RemoveAbandonedSkinsEventHandler {
     @SubscribeEvent
     public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
 
-        SkinRecorderService.recordSkinClear(event.player.getCommandSenderName());
+        SkinRecorderService.recordSkinClear(event.player.getName());
     }
 
 }

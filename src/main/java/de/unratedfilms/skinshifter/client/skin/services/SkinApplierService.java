@@ -23,7 +23,7 @@ public class SkinApplierService {
          * This doesn't do anything if there's no custom skin, so the Steve skin from the previous step would remain.
          * Note that this snippet has been copied from the constructor of AbstractClientPlayer.
          */
-        SkinManager skinManager = Minecraft.getMinecraft().func_152342_ad();
+        SkinManager skinManager = Minecraft.getMinecraft().getSkinManager();
         skinManager.func_152790_a(player.getGameProfile(), player, true);
     }
 

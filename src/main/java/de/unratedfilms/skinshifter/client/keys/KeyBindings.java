@@ -3,7 +3,7 @@ package de.unratedfilms.skinshifter.client.keys;
 
 import org.lwjgl.input.Keyboard;
 import net.minecraft.client.settings.KeyBinding;
-import cpw.mods.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import de.unratedfilms.skinshifter.Consts;
 
 public class KeyBindings {

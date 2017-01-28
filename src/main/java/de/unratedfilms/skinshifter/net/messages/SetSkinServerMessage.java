@@ -2,9 +2,9 @@
 package de.unratedfilms.skinshifter.net.messages;
 
 import org.apache.commons.lang3.Validate;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import de.unratedfilms.skinshifter.common.skin.Skin;
 import de.unratedfilms.skinshifter.common.skin.services.SkinEncoderService;
 import de.unratedfilms.skinshifter.common.skin.services.SkinRecorderService;
@@ -46,7 +46,7 @@ public class SetSkinServerMessage implements IMessage {
         @Override
         public IMessage onMessage(SetSkinServerMessage message, MessageContext ctx) {
 
-            String sourcePlayerName = ctx.getServerHandler().playerEntity.getCommandSenderName();
+            String sourcePlayerName = ctx.getServerHandler().playerEntity.getName();
 
             // Remember the chosen skin
             SkinRecorderService.recordSkinSet(sourcePlayerName, message.skin);

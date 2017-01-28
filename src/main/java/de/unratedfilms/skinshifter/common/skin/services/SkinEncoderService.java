@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.apache.commons.lang3.Validate;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import de.unratedfilms.skinshifter.common.skin.Skin;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;

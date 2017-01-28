@@ -1,8 +1,8 @@
 
 package de.unratedfilms.skinshifter.client.keys;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import de.unratedfilms.skinshifter.net.NetworkService;
 import de.unratedfilms.skinshifter.net.messages.AvailableSkinsRequestServerMessage;
 

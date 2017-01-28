@@ -3,10 +3,9 @@ package de.unratedfilms.skinshifter.client.main;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import de.unratedfilms.skinshifter.Consts;
 import de.unratedfilms.skinshifter.client.event.PollSkinsEventHandler;
 import de.unratedfilms.skinshifter.client.keys.KeyBindings;
@@ -31,7 +30,7 @@ public class ClientHandler extends CommonHandler {
 
         // Initialize the key bindings
         KeyBindings.initialize();
-        FMLCommonHandler.instance().bus().register(new KeyHandler());
+        MinecraftForge.EVENT_BUS.register(new KeyHandler());
 
         // Initialize the skin polling mechanism
         MinecraftForge.EVENT_BUS.register(new PollSkinsEventHandler());

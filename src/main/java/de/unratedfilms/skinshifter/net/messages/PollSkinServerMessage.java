@@ -3,10 +3,10 @@ package de.unratedfilms.skinshifter.net.messages;
 
 import java.util.Optional;
 import org.apache.commons.lang3.Validate;
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import de.unratedfilms.skinshifter.common.skin.Skin;
 import de.unratedfilms.skinshifter.common.skin.services.SkinRecorderService;
 import io.netty.buffer.ByteBuf;

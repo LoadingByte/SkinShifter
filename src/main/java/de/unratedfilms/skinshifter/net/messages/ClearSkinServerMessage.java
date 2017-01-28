@@ -1,9 +1,9 @@
 
 package de.unratedfilms.skinshifter.net.messages;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import de.unratedfilms.skinshifter.common.skin.Skin;
 import de.unratedfilms.skinshifter.common.skin.services.SkinRecorderService;
 import de.unratedfilms.skinshifter.net.NetworkService;
@@ -33,7 +33,7 @@ public class ClearSkinServerMessage implements IMessage {
         @Override
         public IMessage onMessage(ClearSkinServerMessage message, MessageContext ctx) {
 
-            String sourcePlayerName = ctx.getServerHandler().playerEntity.getCommandSenderName();
+            String sourcePlayerName = ctx.getServerHandler().playerEntity.getName();
 
             // Remember the fact that the player's skin is now his default again
             SkinRecorderService.recordSkinClear(sourcePlayerName);

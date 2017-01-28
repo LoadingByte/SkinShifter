@@ -3,7 +3,7 @@ package de.unratedfilms.skinshifter.client.event;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import de.unratedfilms.skinshifter.net.NetworkService;
 import de.unratedfilms.skinshifter.net.messages.PollSkinServerMessage;
 
@@ -19,8 +19,8 @@ public class PollSkinsEventHandler {
     @SubscribeEvent
     public void onPlayerSpawn(EntityJoinWorldEvent event) {
 
-        if (event.entity instanceof EntityPlayer) {
-            String spawnedPlayerName = event.entity.getCommandSenderName();
+        if (event.getEntity() instanceof EntityPlayer) {
+            String spawnedPlayerName = event.getEntity().getName();
             PollSkinServerMessage message = new PollSkinServerMessage(spawnedPlayerName);
             NetworkService.DISPATCHER.sendToServer(message);
         }

@@ -13,8 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FilenameUtils;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import de.unratedfilms.skinshifter.Config;
 import de.unratedfilms.skinshifter.Consts;
 import de.unratedfilms.skinshifter.common.skin.Skin;
@@ -89,7 +89,7 @@ public class SkinProviderService {
         }
 
         // Add a skin directory for each world
-        for (World world : MinecraftServer.getServer().worldServers) {
+        for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds) {
             Path skinDir = world.getSaveHandler().getWorldDirectory().toPath().resolve("skins");
             if (Files.exists(skinDir)) {
                 skinDirs.add(skinDir);
