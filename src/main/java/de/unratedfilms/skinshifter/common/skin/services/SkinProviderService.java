@@ -42,7 +42,7 @@ public class SkinProviderService {
                                 // Load the skin into a bufferedimage
                                 BufferedImage skinTexture = ImageIO.read(file.toFile());
 
-                                skins.add(new Skin(skinName, skinTexture));
+                                skins.add(new Skin(skinName, Skin.Model.DEFAULT /* for now, we only support default model skins */, skinTexture));
                             } catch (IOException e) {
                                 LOGGER.error("Error while reading custom skin file '{}'", file, e);
                             }

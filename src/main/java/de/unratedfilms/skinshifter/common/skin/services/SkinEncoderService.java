@@ -17,14 +17,16 @@ public class SkinEncoderService {
     public static Skin readSkinBinary(ByteBuf from) {
 
         String name = ByteBufUtils.readUTF8String(from);
+        Skin.Model model = Skin.Model.values()[from.readByte()];
         BufferedImage texture = readBufferedImageBinary(from);
 
-        return new Skin(name, texture);
+        return new Skin(name, model, texture);
     }
 
     public static void writeSkinBinary(ByteBuf to, Skin skin) {
 
         ByteBufUtils.writeUTF8String(to, skin.getName());
+        to.writeByte(skin.getModel().ordinal());
         writeBufferedImageBinary(to, skin.getTexture(), "png");
     }
 
