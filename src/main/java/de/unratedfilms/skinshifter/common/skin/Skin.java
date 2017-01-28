@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class Skin implements Comparable<Skin> {
 
     private static final int TEXTURE_WIDTH  = 64;
-    private static final int TEXTURE_HEIGHT = 32;
+    private static final int TEXTURE_HEIGHT = 64;
 
     public static enum Model {
 

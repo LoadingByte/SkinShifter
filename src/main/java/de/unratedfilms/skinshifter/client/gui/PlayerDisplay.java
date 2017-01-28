@@ -46,6 +46,7 @@ public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetF
         float relativeMouseX = - (lmx - (getX() + offsetX));
         float relativeMouseY = - (lmy - (getY() + offsetY - playerHeight * 0.8f));
 
+        String oldSkinType = MC.player.getSkinType();
         ResourceLocation oldSkinResource = MC.player.getLocationSkin();
         if (customSkin != null) {
             SkinApplierService.setSkinTo(MC.player, customSkin);
@@ -55,7 +56,7 @@ public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetF
         GuiInventory.drawEntityOnScreen(getX() + (int) offsetX, getY() + (int) offsetY, (int) finalScale, relativeMouseX, relativeMouseY, MC.player);
 
         if (customSkin != null) {
-            SkinApplierService.setSkinTo(MC.player, oldSkinResource);
+            SkinApplierService.setSkinTo(MC.player, oldSkinType, oldSkinResource);
         }
     }
 
