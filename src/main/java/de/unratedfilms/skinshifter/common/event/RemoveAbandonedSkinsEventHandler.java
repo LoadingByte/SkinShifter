@@ -10,9 +10,6 @@ import de.unratedfilms.skinshifter.common.skin.services.SkinRecorderService;
  */
 public class RemoveAbandonedSkinsEventHandler {
 
-    /*
-     * Sadly, this doesn't work for singleplayer. But I have no idea what does ...
-     */
     @SubscribeEvent
     public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
 

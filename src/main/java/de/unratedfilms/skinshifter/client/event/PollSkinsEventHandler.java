@@ -13,7 +13,7 @@ import de.unratedfilms.skinshifter.net.messages.PollSkinServerMessage;
 public class PollSkinsEventHandler {
 
     /*
-     * Since a player's skin is reset if that player is (re)added to my world (skin setting mechanism is placed in constructor of AbstractClientPlayer),
+     * Since a player's skin might have changed before that player is (re)added to my world,
      * I have to poll that player's custom skin each time he is (re)added.
      */
     @SubscribeEvent
