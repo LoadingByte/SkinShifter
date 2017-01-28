@@ -2,6 +2,7 @@
 package de.unratedfilms.skinshifter.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import de.unratedfilms.guilib.core.Viewport;
 import de.unratedfilms.guilib.core.WidgetFlexible;
@@ -51,6 +52,15 @@ public class PlayerDisplay extends ContextHelperWidgetAdapter implements WidgetF
         if (customSkin != null) {
             SkinApplierService.setSkinTo(MC.player, customSkin);
         }
+
+        /*
+         * The reason for why this is here is actually quite interesting.
+         * Before the player display widget is drawn, other widgets probably have already been rendered.
+         * With a high chance, those widgets changed the GL color to fit their needs, especially if they rendered text or custom shapes without textures.
+         * That means that the GL color might still set to the one used by the last rendered widget.
+         * Because that GL color is therefore unpredictable, we really need to reset it here so that it doesn't mess up our player render down below.
+         */
+        GlStateManager.color(1, 1, 1, 1);
 
         // This method is normally used to draw the small player in the middle of the inventory screen
         GuiInventory.drawEntityOnScreen(getX() + (int) offsetX, getY() + (int) offsetY, (int) finalScale, relativeMouseX, relativeMouseY, MC.player);
