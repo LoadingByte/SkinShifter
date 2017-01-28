@@ -52,7 +52,9 @@ public class ClearSkinClientMessage implements IMessage {
 
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().world.getPlayerEntityByName(message.playerName);
-                SkinApplierService.clearSkinToDefault(player);
+                if (player != null) {
+                    SkinApplierService.clearSkinToDefault(player);
+                }
             });
 
             // No reply
