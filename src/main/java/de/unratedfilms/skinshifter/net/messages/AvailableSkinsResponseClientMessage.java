@@ -67,8 +67,10 @@ public class AvailableSkinsResponseClientMessage implements IMessage {
             // And, of course, the skins which are stored on the server
             allAvailableSkins.addAll(Arrays.asList(message.availableSkins));
 
-            // Open a create program GUI that displays the skins
-            Minecraft.getMinecraft().displayGuiScreen(new SkinSelectionScreen(null, allAvailableSkins));
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                // Open a create program GUI that displays the skins
+                Minecraft.getMinecraft().displayGuiScreen(new SkinSelectionScreen(null, allAvailableSkins));
+            });
 
             // No reply
             return null;

@@ -56,8 +56,10 @@ public class SetSkinClientMessage implements IMessage {
         @SideOnly (Side.CLIENT)
         public IMessage onMessage(SetSkinClientMessage message, MessageContext ctx) {
 
-            AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().world.getPlayerEntityByName(message.playerName);
-            SkinApplierService.setSkinTo(player, message.skin);
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().world.getPlayerEntityByName(message.playerName);
+                SkinApplierService.setSkinTo(player, message.skin);
+            });
 
             // No reply
             return null;

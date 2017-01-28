@@ -30,6 +30,7 @@ public class AvailableSkinsRequestServerMessage implements IMessage {
         @Override
         public AvailableSkinsResponseClientMessage onMessage(AvailableSkinsRequestServerMessage message, MessageContext ctx) {
 
+            // The provider method is functional and therefore thread-safe; we do not need to care about threading here
             Set<Skin> availableSkins = SkinProviderService.getAvailableSkins();
             Skin[] availableSkinsArr = availableSkins.toArray(new Skin[availableSkins.size()]);
 

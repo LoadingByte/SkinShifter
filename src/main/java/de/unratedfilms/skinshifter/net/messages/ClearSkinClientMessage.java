@@ -50,8 +50,10 @@ public class ClearSkinClientMessage implements IMessage {
         @SideOnly (Side.CLIENT)
         public IMessage onMessage(ClearSkinClientMessage message, MessageContext ctx) {
 
-            AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().world.getPlayerEntityByName(message.playerName);
-            SkinApplierService.clearSkinToDefault(player);
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().world.getPlayerEntityByName(message.playerName);
+                SkinApplierService.clearSkinToDefault(player);
+            });
 
             // No reply
             return null;
