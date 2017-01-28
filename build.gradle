@@ -1,27 +1,16 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
-        }
-        maven {
-            name = 'sonatype'
-            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
-        maven {
-            name = 'jboss'
-            url = 'http://repository.jboss.org/nexus/content/groups/public/'
-        }
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
         classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1'
     }
 }
 
 // Apply plugins
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
 apply plugin: 'maven-publish-auth'
 
@@ -34,8 +23,15 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = '1.7.10-10.13.4.1614-1.7.10'
+    version = '1.11.2-13.20.0.2226'
     runDir = 'run'
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20161220"
 
     // Replace strings with constants in the source
     replace "@MOD_VERSION@", project.version
@@ -66,7 +62,7 @@ processResources {
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
 
-    // copy everything else, thats not the mcmod.info
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
@@ -76,13 +72,6 @@ processResources {
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'dev'
-}
-
-// Task for creating a source jar
-task sourceJar(type: Jar) {
-    from sourceSets.main.java
-    from sourceSets.main.resources
-    classifier = 'sources'
 }
 
 // Task for creating a javadoc jar
