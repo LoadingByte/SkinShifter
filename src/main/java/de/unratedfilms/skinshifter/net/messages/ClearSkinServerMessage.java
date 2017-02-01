@@ -1,6 +1,7 @@
 
 package de.unratedfilms.skinshifter.net.messages;
 
+import static de.unratedfilms.skinshifter.Consts.LOGGER;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -34,6 +35,8 @@ public class ClearSkinServerMessage implements IMessage {
         public IMessage onMessage(ClearSkinServerMessage message, MessageContext ctx) {
 
             String sourcePlayerName = ctx.getServerHandler().playerEntity.getCommandSenderName();
+
+            LOGGER.info("Player '{}' cleared his skin back to the default", sourcePlayerName);
 
             // Remember the fact that the player's skin is now his default again
             SkinRecorderService.recordSkinClear(sourcePlayerName);

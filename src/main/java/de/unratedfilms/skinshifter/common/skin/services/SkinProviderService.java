@@ -13,8 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FilenameUtils;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
 import de.unratedfilms.skinshifter.Config;
 import de.unratedfilms.skinshifter.Consts;
 import de.unratedfilms.skinshifter.common.skin.Skin;
@@ -85,14 +83,6 @@ public class SkinProviderService {
                 } catch (IOException e) {
                     LOGGER.error("Failed to create the configured skin dir '{}'", skinDir, e);
                 }
-            }
-        }
-
-        // Add a skin directory for each world
-        for (World world : MinecraftServer.getServer().worldServers) {
-            Path skinDir = world.getSaveHandler().getWorldDirectory().toPath().resolve("skins");
-            if (Files.exists(skinDir)) {
-                skinDirs.add(skinDir);
             }
         }
 
