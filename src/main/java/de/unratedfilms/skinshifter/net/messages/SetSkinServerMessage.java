@@ -1,6 +1,7 @@
 
 package de.unratedfilms.skinshifter.net.messages;
 
+import static de.unratedfilms.skinshifter.Consts.LOGGER;
 import org.apache.commons.lang3.Validate;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -47,6 +48,8 @@ public class SetSkinServerMessage implements IMessage {
         public IMessage onMessage(SetSkinServerMessage message, MessageContext ctx) {
 
             String sourcePlayerName = ctx.getServerHandler().playerEntity.getCommandSenderName();
+
+            LOGGER.info("Player '{}' changed his skin to '{}'", sourcePlayerName, message.skin.getName());
 
             // Remember the chosen skin
             SkinRecorderService.recordSkinSet(sourcePlayerName, message.skin);

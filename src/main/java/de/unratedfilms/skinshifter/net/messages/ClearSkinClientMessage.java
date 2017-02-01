@@ -1,6 +1,7 @@
 
 package de.unratedfilms.skinshifter.net.messages;
 
+import static de.unratedfilms.skinshifter.Consts.LOGGER;
 import org.apache.commons.lang3.Validate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -49,6 +50,8 @@ public class ClearSkinClientMessage implements IMessage {
         @Override
         @SideOnly (Side.CLIENT)
         public IMessage onMessage(ClearSkinClientMessage message, MessageContext ctx) {
+
+            LOGGER.info("Applying the skin change of player '{}' back to the default", message.playerName);
 
             AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().theWorld.getPlayerEntityByName(message.playerName);
             SkinApplierService.clearSkinToDefault(player);
