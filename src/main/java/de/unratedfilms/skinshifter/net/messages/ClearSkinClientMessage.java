@@ -54,7 +54,12 @@ public class ClearSkinClientMessage implements IMessage {
             LOGGER.info("Applying the skin change of player '{}' back to the default", message.playerName);
 
             AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().theWorld.getPlayerEntityByName(message.playerName);
-            SkinApplierService.clearSkinToDefault(player);
+
+            // When the other player is not loaded in the client's world because he is too far away, the skin change would fail
+            // The skin change will be performed later when the other player enters this client's local world
+            if (player != null) {
+                SkinApplierService.clearSkinToDefault(player);
+            }
 
             // No reply
             return null;
