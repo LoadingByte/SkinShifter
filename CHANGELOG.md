@@ -1,3 +1,9 @@
+1.0.3
+-----
+
+### Fixes
+* Fixed client crashes caused by the skin changes of other unloaded players who are not loaded in the client's world because they are too far away.
+
 1.0.2
 -----
 

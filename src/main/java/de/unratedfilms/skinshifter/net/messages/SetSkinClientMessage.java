@@ -60,7 +60,12 @@ public class SetSkinClientMessage implements IMessage {
             LOGGER.info("Applying the skin change of player '{}' to '{}'", message.playerName, message.skin.getName());
 
             AbstractClientPlayer player = (AbstractClientPlayer) Minecraft.getMinecraft().theWorld.getPlayerEntityByName(message.playerName);
-            SkinApplierService.setSkinTo(player, message.skin);
+
+            // When the other player is not loaded in the client's world because he is too far away, the skin change would fail
+            // The skin change will be performed later when the other player enters this client's local world
+            if (player != null) {
+                SkinApplierService.setSkinTo(player, message.skin);
+            }
 
             // No reply
             return null;
