@@ -87,7 +87,7 @@ public class SkinSelectionScreen extends BasicScreen {
         leftContainer.addWidgets(buttonContainer);
 
         scrollbar = new ScrollbarImpl(0);
-        scrollableContainer = new ContainerScrollableImpl(scrollbar, 10);
+        scrollableContainer = new ContainerScrollableImpl(scrollbar);
         leftContainer.addWidgets(scrollableContainer);
 
         for (Skin skin : skins) {
