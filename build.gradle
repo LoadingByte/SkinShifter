@@ -68,26 +68,24 @@ processResources {
     }
 }
 
-// Task for creating a deobfuscated JAR; needed by the projects which use this library
+// Task for creating a deobfuscated JAR; needed by the projects which use this mod as a dependency
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    classifier = 'dev'
 }
 
 // Task for creating a javadoc jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
-    classifier = 'javadoc'
 }
 
 // Publish the project artifacts to a maven repository
 publishing {
     publications {
-        maven(MavenPublication) {
-            artifact jar
-            artifact deobfJar
-            artifact sourceJar
-            artifact javadocJar
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact deobfJar { classifier = 'dev' }
+            artifact sourceJar { classifier = 'sources' }
+            artifact javadocJar { classifier = 'javadoc' }
         }
     }
     repositories {
